@@ -4,6 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evaluación Final Módulo 2</title>
+    <link rel="stylesheet" href="./styles/style.css" />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Buscador de series</h1>
+    </header>
+    <main>
+      <form method="GET">
+        <label for="text"></label>
+        <input type="text" id="text" name="text" class="js-text" required />
+        <input type="button" id="button" value="Search" class="js-btn-search" />
+      </form>
+    </main>
+
+    <section class="js-general-list"></section>
+    <section class="js-favorites-list"></section>
+
+    <script src="./js/main.js"></script>
+  </body>
 </html>
