@@ -22,6 +22,7 @@
 */
 
 const btnSearch = document.querySelector(".js-btn-search");
+const generalContainer = document.querySelector(".js-generalList-container");
 
 let generalList = [];
 
@@ -42,3 +43,28 @@ function fetchData() {
 btnSearch.addEventListener("click", fetchData);
 
 //pintar array en el html
+
+function paintData() {
+  let html = "";
+
+  for (let i = 0; i < generalList.length; i++) {
+    html += `<li>`;
+    html += `<h2>${generalList[i].name}</h2>`;
+
+    let imageResult;
+    if (generalList[i].image === null) {
+      imageResult =
+        "https://via.placeholder.com/210x295/ffffff/666666/? text=TV";
+    } else {
+      imageResult = generalList[i].image.medium;
+    }
+
+    html += `<div><img src="${imageResult}" alt="series picture"/></div>`;
+    //aqui meto la imagen y le doy la clase para el fondo
+
+    html += `</li>`;
+    console.log(generalList[i]);
+  }
+
+  generalContainer.innerHTML = html;
+}
