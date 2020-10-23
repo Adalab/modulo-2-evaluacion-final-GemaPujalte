@@ -30,7 +30,7 @@ let generalList = [];
 function fetchData() {
   const textElement = document.querySelector(".js-text").value;
 
-  fetch(`http://api.tvmaze.com/search/shows?q=${textElement}`)
+  fetch(`//api.tvmaze.com/search/shows?q=${textElement}`)
     .then((response) => response.json())
     .then((data) => {
       for (let i = 0; i < data.length; i++) {
