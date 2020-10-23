@@ -29,7 +29,6 @@ let generalList = [];
 //recoge valor del input y pide datos a la api,guardandolos en un array.
 function fetchData() {
   const textElement = document.querySelector(".js-text").value;
-
   fetch(`//api.tvmaze.com/search/shows?q=${textElement}`)
     .then((response) => response.json())
     .then((data) => {
