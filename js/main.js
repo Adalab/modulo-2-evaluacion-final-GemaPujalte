@@ -25,6 +25,7 @@ const btnSearch = document.querySelector(".js-btn-search");
 const generalContainer = document.querySelector(".js-generalList-container");
 
 let generalList = [];
+let favoritesList = [];
 
 //recoge valor del input y pide datos a la api,guardandolos en un array.
 function fetchData() {
@@ -36,6 +37,7 @@ function fetchData() {
         generalList[i] = data[i].show;
       }
       paintData();
+      listenFavorites();
     });
 }
 
@@ -47,7 +49,7 @@ function paintData() {
   let html = "";
 
   for (let i = 0; i < generalList.length; i++) {
-    html += `<li>`;
+    html += `<li class= "js-listItem" id = "${i}">`;
     html += `<h2>${generalList[i].name}</h2>`;
 
     let imageResult;
@@ -58,12 +60,32 @@ function paintData() {
       imageResult = generalList[i].image.medium;
     }
 
-    html += `<div><img src="${imageResult}" alt="series picture"/></div>`;
+    html += `<div class = "js-background-general"><img src="${imageResult}" alt="series picture"/></div>`;
     //aqui meto la imagen y le doy la clase para el fondo
 
     html += `</li>`;
-    console.log(generalList[i]);
   }
 
   generalContainer.innerHTML = html;
+}
+
+/*Cosas que me faltan:
+
+-El input debe vaciarse cuando aparezcan las imagenes
+
+*/
+
+//FAVORITOS
+
+function favoritesItems(event) {
+  const clicked = parseInt(event.currentTarget.id);
+  favoritesList.push(clicked);
+  console.log(favoritesList);
+}
+
+function listenFavorites() {
+  const listItems = document.querySelectorAll(".js-listItem");
+  for (const listItem of listItems) {
+    listItem.addEventListener("click", favoritesItems);
+  }
 }
