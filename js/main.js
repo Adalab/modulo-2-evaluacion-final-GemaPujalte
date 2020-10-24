@@ -49,7 +49,7 @@ function paintData() {
   let html = "";
 
   for (let i = 0; i < generalList.length; i++) {
-    html += `<li class= "js-listItem" id = "${i}">`;
+    html += `<li class= "js-listItem favoriteColor-items" id = "${i}">`;
     html += `<h2>${generalList[i].name}</h2>`;
 
     let imageResult;
@@ -60,7 +60,7 @@ function paintData() {
       imageResult = generalList[i].image.medium;
     }
 
-    html += `<div class = "js-background-general"><img src="${imageResult}" alt="series picture"/></div>`;
+    html += `<div class = "background-general "><img src="${imageResult}" alt="series picture"/></div>`;
     //aqui meto la imagen y le doy la clase para el fondo
 
     html += `</li>`;
@@ -79,7 +79,16 @@ function paintData() {
 
 function favoritesItems(event) {
   const clicked = parseInt(event.currentTarget.id);
-  favoritesList.push(clicked);
+  const indexFav = favoritesList.indexOf(clicked);
+  const isFavorite = indexFav !== -1;
+
+  if (isFavorite === false) {
+    console.log("lo meto");
+    favoritesList.push(clicked);
+  } else {
+    console.log("lo quito");
+    favoritesList.splice(indexFav, 1);
+  }
   console.log(favoritesList);
 }
 

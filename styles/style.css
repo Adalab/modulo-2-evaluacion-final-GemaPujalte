@@ -1,8 +1,12 @@
-.js-background-general {
+.background-general {
   background-color: gray;
   text-align: center;
 }
 
 .ul {
   list-style: none;
+}
+
+.favoriteColor-items .background-general {
+  background-color: palevioletred;
 }
