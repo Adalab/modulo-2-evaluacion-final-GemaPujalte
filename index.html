@@ -9,8 +9,6 @@
   <body>
     <header>
       <h1>Buscador de series</h1>
-    </header>
-    <main>
       <form method="GET">
         <label for="text"></label>
         <input
@@ -23,16 +21,17 @@
         />
         <input type="button" id="button" value="Search" class="js-btn-search" />
       </form>
+    </header>
+    <main class="main">
+      <section class="general-list">
+        <h2>Series buscadas</h2>
+        <ul class="ul js-generalList-container"></ul>
+      </section>
+      <section>
+        <h2>Series favoritas</h2>
+        <ul class="ul js-favorites-container"></ul>
+      </section>
     </main>
-
-    <section>
-      <h2>Series buscadas</h2>
-      <ul class="js-generalList-container"></ul>
-    </section>
-    <section>
-      <h2>Series favoritas</h2>
-      <ul class="js-favorites-container"></ul>
-    </section>
 
     <script src="./js/main.js"></script>
   </body>

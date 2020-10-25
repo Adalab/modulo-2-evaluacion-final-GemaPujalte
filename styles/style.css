@@ -1,3 +1,11 @@
+.main {
+  display: flex;
+  justify-content: space-around;
+}
+.general-list {
+  text-align: center;
+}
+
 .background-general {
   background-color: gray;
   text-align: center;

@@ -7,6 +7,8 @@ const favoritesContainer = document.querySelector(".js-favorites-container");
 
 let generalList = [];
 let favoritesList = [];
+getLocalStorage();
+paintFavorites();
 
 //Función para conectar con la API y recoger los datos que necesitamos
 
@@ -55,23 +57,41 @@ function listenFavorites() {
 function favoritesItems(event) {
   const clickedElement = event.currentTarget;
   clickedElement.classList.toggle("favoriteColor-items");
-  console.log(clickedElement);
-
   let idElement = clickedElement.getAttribute("id");
 
-  //Recorro el array principal
-  for (let i = 0; i < generalList.length; i++) {
-    if (generalList[i].show.id === parseInt(idElement)) {
-      favoritesList.push(generalList[i]);
-      paintFavorites();
+  //llamo a la funcion pasandole por parametro el id del elemento clicado.
+  let existSerie = exitsFavorites(idElement);
+  if (!existSerie) {
+    for (let i = 0; i < generalList.length; i++) {
+      if (generalList[i].show.id === parseInt(idElement)) {
+        favoritesList.push(generalList[i]);
+        paintFavorites();
+      }
+      setLocalStorage();
     }
-    setLocalStorage();
-    //To DO LocalStorage
   }
+}
+
+//evalua si el id de la serie favorita seleccionada esta repetido. Si es así,no deja seleccionarla otra vez.
+function exitsFavorites(id) {
+  let exist = false;
+  for (let i = 0; i < favoritesList.length; i++) {
+    if (favoritesList[i].show.id == id) {
+      exist = true;
+    }
+  }
+  return exist;
 }
 
 function setLocalStorage() {
   localStorage.setItem("favoritesSeries", JSON.stringify(favoritesList));
+}
+function getLocalStorage() {
+  favoritesList = JSON.parse(localStorage.getItem("favoritesSeries"));
+  if (favoritesList === null) {
+    favoritesList = [];
+  }
+  console.log(favoritesList);
 }
 
 function paintFavorites() {
