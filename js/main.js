@@ -1,100 +1,91 @@
 "use strict";
 
-/*
-1-Escribir serie en el input (recoger el valor que escriba el usuario?). Preparar evento para el boton con su funcion handler que hará que haga la llamada a la API.
-2- Clickar en el boton. 
-3- Desencadenar evento y funcion{
-  -fetch para obtener datos
-  -parsear datos del servidor
-  -pintar resultados en la section del listado general.
-  -cada elemento del array tiene un fondo de color que debe cambiar al llevarlo a favoritos.
-}
-
-4-marcar como favorita la serie seleccionada{
-  -escuchar evento click en cada serie
-  -guardar las favoritas en un array
-  -añadirle la clase de favorita
-}
-
-6-Guardar las series favoritas en localStorage.
-
-
-*/
-
+"use strict";
 const btnSearch = document.querySelector(".js-btn-search");
 const generalContainer = document.querySelector(".js-generalList-container");
+const favoritesContainer = document.querySelector(".js-favorites-container");
 
 let generalList = [];
 let favoritesList = [];
 
-//recoge valor del input y pide datos a la api,guardandolos en un array.
+//Función para conectar con la API y recoger los datos que necesitamos
+
 function fetchData() {
   const textElement = document.querySelector(".js-text").value;
+
   fetch(`//api.tvmaze.com/search/shows?q=${textElement}`)
-    .then((response) => response.json())
-    .then((data) => {
-      for (let i = 0; i < data.length; i++) {
-        generalList[i] = data[i].show;
-      }
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      generalList = data;
       paintData();
       listenFavorites();
     });
 }
-
 btnSearch.addEventListener("click", fetchData);
 
-//pintar array en el html
+//Función para pintar los resultados de la búsqueda
 
 function paintData() {
   let html = "";
-
   for (let i = 0; i < generalList.length; i++) {
-    html += `<li class= "js-listItem favoriteColor-items" id = "${i}">`;
-    html += `<h2>${generalList[i].name}</h2>`;
-
-    let imageResult;
-    if (generalList[i].image === null) {
-      imageResult =
-        "https://via.placeholder.com/210x295/ffffff/666666/? text=TV";
+    html += `<li class= "js-listItem" id="${[generalList[i].show.id]}">`;
+    html += `<h3 >${generalList[i].show.name}</h3>`;
+    if (generalList[i].show.image === null) {
+      html += `<img src="//via.placeholder.com/210x296/f0ffff/00008b/?text=No+image+available"/>`;
     } else {
-      imageResult = generalList[i].image.medium;
+      html += `<img  src="${generalList[i].show.image.medium}"/>`;
     }
-
-    html += `<div class = "background-general "><img src="${imageResult}" alt="series picture"/></div>`;
-    //aqui meto la imagen y le doy la clase para el fondo
-
-    html += `</li>`;
+    html += "</li>";
+    console.log(generalList[i].show.id);
   }
-
   generalContainer.innerHTML = html;
 }
-
-/*Cosas que me faltan:
-
--El input debe vaciarse cuando aparezcan las imagenes
-
-*/
-
-//FAVORITOS
-
-function favoritesItems(event) {
-  const clicked = parseInt(event.currentTarget.id);
-  const indexFav = favoritesList.indexOf(clicked);
-  const isFavorite = indexFav !== -1;
-
-  if (isFavorite === false) {
-    console.log("lo meto");
-    favoritesList.push(clicked);
-  } else {
-    console.log("lo quito");
-    favoritesList.splice(indexFav, 1);
-  }
-  console.log(favoritesList);
-}
-
+//funcion para escuchar el evento click sobre cada item del array principal.
 function listenFavorites() {
   const listItems = document.querySelectorAll(".js-listItem");
   for (const listItem of listItems) {
     listItem.addEventListener("click", favoritesItems);
   }
+}
+
+//FUNCION PARA SELECCIONAR LAS SERIES FAVORITAS
+
+function favoritesItems(event) {
+  const clickedElement = event.currentTarget;
+  clickedElement.classList.toggle("favoriteColor-items");
+  console.log(clickedElement);
+
+  let idElement = clickedElement.getAttribute("id");
+
+  //Recorro el array principal
+  for (let i = 0; i < generalList.length; i++) {
+    if (generalList[i].show.id === parseInt(idElement)) {
+      favoritesList.push(generalList[i]);
+      paintFavorites();
+    }
+    setLocalStorage();
+    //To DO LocalStorage
+  }
+}
+
+function setLocalStorage() {
+  localStorage.setItem("favoritesSeries", JSON.stringify(favoritesList));
+}
+
+function paintFavorites() {
+  let htmlFavorites = "";
+
+  for (let i = 0; i < favoritesList.length; i++) {
+    htmlFavorites += `<li class= "js-listItem" id="${favoritesList[i].show.id}">`;
+    htmlFavorites += `<h3 >${favoritesList[i].show.name}</h3>`;
+    if (favoritesList[i].show.image === null) {
+      htmlFavorites += `<img src="//via.placeholder.com/210x296/f0ffff/00008b/?text=No+image+available"/>`;
+    } else {
+      htmlFavorites += `<img  src="${favoritesList[i].show.image.medium}"/>`;
+    }
+    htmlFavorites += "</li>";
+  }
+  favoritesContainer.innerHTML = htmlFavorites;
 }
