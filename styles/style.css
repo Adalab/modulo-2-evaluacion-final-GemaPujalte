@@ -1,11 +1,27 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 .main {
   display: flex;
   justify-content: space-around;
   text-align: center;
 }
+.general {
+  width: 100%;
+}
 .general-list {
   background-color: gray;
   text-align: center;
+}
+
+.favorites {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .favorite-list {
   text-align: center;
@@ -14,6 +30,14 @@
 .ul {
   list-style: none;
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+
+  margin: 3px 5px;
 }
 
 .favoriteColor-items {

@@ -1,9 +1,9 @@
 "use strict";
-
-"use strict";
 const btnSearch = document.querySelector(".js-btn-search");
 const generalContainer = document.querySelector(".js-generalList-container");
 const favoritesContainer = document.querySelector(".js-favorites-container");
+
+btnSearch.addEventListener("click", fetchData);
 
 let generalList = [];
 let favoritesList = [];
@@ -25,9 +25,8 @@ function fetchData() {
       listenFavorites();
     });
 }
-btnSearch.addEventListener("click", fetchData);
 
-//Función para pintar los resultados de la búsqueda
+//Función para pintar los resultados de la búsqueda en el html.
 
 function paintData() {
   let html = "";
@@ -40,12 +39,11 @@ function paintData() {
       html += `<img  src="${generalList[i].show.image.medium}"/>`;
     }
     html += "</li>";
-    console.log(generalList[i].show.id);
   }
   generalContainer.innerHTML = html;
 }
 
-//funcion para escuchar el evento click sobre cada item del array principal.
+//Función para escuchar el evento click sobre cada item del array principal.
 function listenFavorites() {
   const listItems = document.querySelectorAll(".js-listItem");
   for (const listItem of listItems) {
@@ -53,27 +51,15 @@ function listenFavorites() {
   }
 }
 
-function listenFavoritesArray() {
-  const listItemsArrfav = document.querySelector(".js-listenFavorites");
-
-  listItemsArrfav.addEventListener("click", listenFavoritesArray);
-  console.log(listItemsArrfav);
-}
-
-listenFavoritesArray();
-function favoritesArray(event) {
-  const itemClickedFavorite = event.currentTarget;
-  console.log(itemClickedFavorite);
-}
-
-//FUNCION PARA SELECCIONAR LAS SERIES FAVORITAS
+//Función para seleccionar las series favoritas a través del atributo id.
 
 function favoritesItems(event) {
   const clickedElement = event.currentTarget;
   clickedElement.classList.toggle("favoriteColor-items");
+
   let idElement = clickedElement.getAttribute("id");
 
-  //llamo a la funcion pasandole por parametro el id del elemento clicado.
+  //Llamo a la función pasandole por parámetro el id del elemento clicado.
   let existSerie = exitsFavorites(idElement);
   if (!existSerie) {
     for (let i = 0; i < generalList.length; i++) {
@@ -86,7 +72,7 @@ function favoritesItems(event) {
   }
 }
 
-//evalua si el id de la serie seleccionada esta seleccionada como favorita. Si es así,no deja seleccionarla otra vez.
+//Evalúa si el id de la serie seleccionada está seleccionada como favorita.
 function exitsFavorites(id) {
   let exist = false;
   for (let i = 0; i < favoritesList.length; i++) {
@@ -108,11 +94,12 @@ function getLocalStorage() {
   console.log(favoritesList);
 }
 
+//Función para pintar las series favoritas en el html.
 function paintFavorites() {
   let htmlFavorites = "";
 
   for (let i = 0; i < favoritesList.length; i++) {
-    htmlFavorites += `<li class= "js-listItem js-listenFavorites" id="${favoritesList[i].show.id}">`;
+    htmlFavorites += `<li class= "js-listItem js-listenFavorites " id="${favoritesList[i].show.id}">`;
     htmlFavorites += `<h3 >${favoritesList[i].show.name}</h3>`;
     if (favoritesList[i].show.image === null) {
       htmlFavorites += `<img src="//via.placeholder.com/210x296/f0ffff/00008b/?text=No+image+available"/>`;
@@ -125,10 +112,10 @@ function paintFavorites() {
 }
 
 function reset() {
-  favoritesList.splice(0, 1);
-  // favoritesList = [];
+  // favoritesList.splice(0, 1);
+  favoritesList = [];
   paintFavorites();
-  // localStorage.removeItem("favoritesSeries");
+  localStorage.removeItem("favoritesSeries");
 }
 const resetBtn = document.querySelector(".js__btn-reset");
 resetBtn.addEventListener("click", reset);
