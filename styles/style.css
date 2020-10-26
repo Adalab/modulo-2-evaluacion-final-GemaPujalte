@@ -1,18 +1,19 @@
 .main {
   display: flex;
   justify-content: space-around;
-}
-.general-list {
   text-align: center;
 }
-
-.background-general {
+.general-list {
   background-color: gray;
+  text-align: center;
+}
+.favorite-list {
   text-align: center;
 }
 
 .ul {
   list-style: none;
+  text-align: center;
 }
 
 .favoriteColor-items {
